@@ -6,10 +6,27 @@ import { WebSocketContext } from '../config/contexts/WebSocketContext';
 export default () => {
     const { chatId } = useParams();
 
-    const { data } = useContext(WebSocketContext);
+    const { data, send } = useContext(WebSocketContext);
 
     useEffect(() => {
-        console.log(data);
+        send({
+            action: 'join-chat',
+            data: {
+                chatId,
+            },
+        });
+
+        return () =>
+            send({
+                action: 'left-chat',
+                data: {
+                    chatId,
+                },
+            });
+    }, [chatId]);
+
+    useEffect(() => {
+        data && console.log(data);
     }, [data]);
 
     return <div>Chat {chatId}</div>;

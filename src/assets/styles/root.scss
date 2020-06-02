@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Circular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Circular Std Bold'),
+        url(../fonts/circular-bold.woff) format('woff');
+}
+
+@import url(./elements/buttons.scss);
+@import url(./elements/form.scss);
+@import url(./core/layout.scss);
+@import url(./core/typography.scss);
+@import url(./effects/effects.scss);
+
+* {
+    user-select: none;
+}
+
+html,
+body {
+    margin: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+#root {
+    width: 100vw;
+    height: 100vh;
+}

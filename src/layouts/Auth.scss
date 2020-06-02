@@ -1,0 +1,31 @@
+.auth {
+    .grid {
+        max-width: 520px;
+        flex-grow: 1;
+
+        .grid-item {
+            width: 100%;
+            padding: 6px 0;
+        }
+    }
+
+    .paper {
+        padding: 24px;
+        text-align: center;
+    }
+
+    .form {
+        padding: 12px;
+        width: 100%;
+        align-items: center;
+
+        .input {
+            max-width: 300px;
+            margin: auto;
+        }
+    }
+
+    .button {
+        margin: 12px;
+    }
+}
