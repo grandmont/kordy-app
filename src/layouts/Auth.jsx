@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import api from '../services/api';
 import {
     Container,
     Grid,
@@ -12,6 +11,8 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { AuthForm, Logo, Backdrop } from '../components';
 
+import { AuthContext } from '../config/contexts/AuthContext';
+
 import './Auth.scss';
 
 export default () => {
@@ -19,6 +20,8 @@ export default () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const { push } = useHistory();
+
+    const { login } = useContext(AuthContext);
 
     const handleChange = ({ target: { name, value } }) =>
         setValues((values) => ({ ...values, [name]: value }));
@@ -28,18 +31,12 @@ export default () => {
 
         setLoading(true);
 
-        console.log(values);
-        setTimeout(() => {
-            api.post('/auth', { ...values })
-                .then(({ data: { token } }) => {
-                    token && localStorage.setItem('token', token);
-                    push('/dashboard');
-                })
-                .catch((error) => {
-                    setError(error);
-                    setLoading(false);
-                });
-        }, 1000);
+        login(values)
+            .then(() => push('/dashboard'))
+            .catch((error) => {
+                setError(error);
+                setLoading(false);
+            });
     };
 
     return (
