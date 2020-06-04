@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-    Container,
-    Grid,
-    Paper,
-    Snackbar,
-    IconButton,
-} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { AuthForm, Logo, Backdrop } from '../components';
@@ -21,7 +20,11 @@ export default () => {
     const [error, setError] = useState(null);
     const { push } = useHistory();
 
-    const { login } = useContext(AuthContext);
+    const { login, logout } = useContext(AuthContext);
+
+    useEffect(() => {
+        logout();
+    }, []);
 
     const handleChange = ({ target: { name, value } }) =>
         setValues((values) => ({ ...values, [name]: value }));

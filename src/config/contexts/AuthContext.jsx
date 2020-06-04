@@ -29,6 +29,7 @@ export default ({ children }) => {
         login,
         logout,
         currentUser,
+        getToken: () => localStorage.getItem('token'),
     };
 
     return (

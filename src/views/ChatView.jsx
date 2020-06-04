@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -27,7 +28,6 @@ export default () => {
     }, [chatId]);
 
     useEffect(() => {
-        console.log(data);
         if (data && data.action === 'chat-message') {
             const {
                 data: {
