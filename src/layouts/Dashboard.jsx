@@ -1,12 +1,20 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
 
 import useWebSocket from 'react-use-websocket';
 
 import WebSocketProvider from '../config/contexts/WebSocketContext';
+import ChatProvider from '../config/contexts/ChatContext';
+
+import { Header, Friends } from '../components';
+import Menu from '../components/layouts/Menu';
 
 // Views
 import ChatView from '../views/ChatView';
+import FeedView from '../views/FeedView';
+
+import './Dashboard.scss';
 
 export default () => {
     const ws = useWebSocket(
@@ -15,18 +23,30 @@ export default () => {
 
     return (
         <WebSocketProvider connection={ws}>
-            <div>
-                <h1>Dashboard</h1>
+            <div className="layout dashboard">
+                <Header />
 
-                <Link to="/dashboard/chat/1">Chat 1</Link>
-                <Link to="/dashboard/chat/2">Chat 2</Link>
+                <div className="dashboard-wrapper">
+                    <Container className="dashboard-container">
+                        <Menu />
+                        <Switch>
+                            <Route
+                                exact
+                                path="/dashboard"
+                                component={FeedView}
+                            />
+                            <ChatProvider>
+                                <Route
+                                    exact
+                                    path="/dashboard/chat/:chatId"
+                                    component={ChatView}
+                                />
+                            </ChatProvider>
+                        </Switch>
 
-                <Switch>
-                    <Route
-                        path="/dashboard/chat/:chatId"
-                        component={ChatView}
-                    />
-                </Switch>
+                        <Friends />
+                    </Container>
+                </div>
             </div>
         </WebSocketProvider>
     );

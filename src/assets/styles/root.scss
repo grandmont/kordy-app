@@ -6,14 +6,15 @@
         url(../fonts/circular-bold.woff) format('woff');
 }
 
-@import url(./elements/buttons.scss);
-@import url(./elements/form.scss);
-@import url(./core/layout.scss);
-@import url(./core/typography.scss);
-@import url(./effects/effects.scss);
+@import './elements/buttons';
+@import './elements/form';
+@import './core/layout';
+@import './core/typography';
+@import './effects/effects';
 
 * {
     user-select: none;
+    box-sizing: border-box;
 }
 
 html,
@@ -37,4 +38,5 @@ code {
 #root {
     width: 100vw;
     height: 100vh;
+    background-color: #fafafa;
 }

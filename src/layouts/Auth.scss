@@ -1,6 +1,6 @@
 .auth {
     .grid {
-        max-width: 520px;
+        max-width: 400px;
         flex-grow: 1;
 
         .grid-item {
@@ -15,17 +15,17 @@
     }
 
     .form {
-        padding: 12px;
+        padding: 12px 0;
         width: 100%;
         align-items: center;
 
         .input {
-            max-width: 300px;
             margin: auto;
         }
     }
 
     .button {
-        margin: 12px;
+        width: 100%;
+        margin: 12px 0 0;
     }
 }
