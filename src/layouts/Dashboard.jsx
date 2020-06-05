@@ -30,15 +30,11 @@ export default () => {
                     <Container className="dashboard-container">
                         <Menu />
                         <Switch>
-                            <Route
-                                exact
-                                path="/dashboard"
-                                component={FeedView}
-                            />
+                            <Route exact path="/" component={FeedView} />
                             <ChatProvider>
                                 <Route
                                     exact
-                                    path="/dashboard/chat/:chatId"
+                                    path="/chat/:chatId"
                                     component={ChatView}
                                 />
                             </ChatProvider>

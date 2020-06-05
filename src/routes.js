@@ -1,10 +1,5 @@
-import React, { useContext } from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-} from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import AuthProvider, { AuthContext } from './config/contexts/AuthContext';
 
@@ -12,17 +7,26 @@ import AuthProvider, { AuthContext } from './config/contexts/AuthContext';
 import Auth from './layouts/Auth';
 import Dashboard from './layouts/Dashboard';
 
-const PrivateRoute = ({ component, ...options }) => {
-    const { getToken } = useContext(AuthContext);
+const NoRoute = () => <div>404 - Oporra</div>;
 
-    const token = getToken();
+const Routes = () => {
+    const { loading, logged, refreshToken } = useContext(AuthContext);
 
-    // Find some way to validate the token
+    useEffect(() => {
+        refreshToken();
+    }, []);
 
-    return token ? (
-        <Route {...options} component={component} />
+    return loading ? (
+        <div>Loading</div>
+    ) : !logged ? (
+        <Switch>
+            <Route exact path="/" component={Auth} />
+            <Route component={NoRoute} />
+        </Switch>
     ) : (
-        <Redirect to="/" />
+        <Switch>
+            <Route path="/" component={Dashboard} />
+        </Switch>
     );
 };
 
@@ -30,8 +34,7 @@ export default () => (
     <Router>
         <Switch>
             <AuthProvider>
-                <Route exact path="/" component={Auth} />
-                <PrivateRoute path="/dashboard" component={Dashboard} />
+                <Routes />
             </AuthProvider>
         </Switch>
     </Router>
