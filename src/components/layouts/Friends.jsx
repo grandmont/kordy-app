@@ -7,8 +7,8 @@ export default () => {
             <h1>Friends</h1>
 
             <div>
-                <Link to="/dashboard/chat/1">Chat 1</Link>
-                <Link to="/dashboard/chat/1">Chat 2</Link>
+                <Link to="/chat/1">Chat 1</Link>
+                <Link to="/chat/1">Chat 2</Link>
             </div>
         </div>
     );
