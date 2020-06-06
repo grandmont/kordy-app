@@ -8,8 +8,9 @@ export default ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(null);
 
-    const login = (values) =>
-        new Promise((resolve, reject) => {
+    const login = (values) => {
+        setLoading(true);
+        return new Promise((resolve, reject) => {
             api.post('/auth', { ...values })
                 .then(({ data: { token, user } }) => {
                     localStorage.token = token;
@@ -20,6 +21,7 @@ export default ({ children }) => {
                 .catch((error) => reject(error))
                 .finally(() => setLoading(false));
         });
+    };
 
     const refreshToken = () =>
         new Promise((resolve, reject) => {

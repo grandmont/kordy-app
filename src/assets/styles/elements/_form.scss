@@ -1,18 +1,16 @@
-#root {
-    .form {
-        display: flex;
-        flex-direction: column;
-    }
+.form {
+    display: flex;
+    flex-direction: column;
+}
 
-    .input {
-        display: flex;
-        align-items: center;
-        padding: 0 12px;
-        border-radius: 5px;
+.input {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border-radius: 5px;
 
-        .input-base {
-            padding: 6px 12px;
-            height: 100%;
-        }
+    .input-base {
+        padding: 6px 12px;
+        height: 100%;
     }
 }
