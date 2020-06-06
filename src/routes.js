@@ -1,41 +1,38 @@
 import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import AuthProvider, { AuthContext } from './config/contexts/AuthContext';
+import { AuthContext } from './config/contexts/AuthContext';
 
-// Layouts
-import Auth from './layouts/Auth';
-import Dashboard from './layouts/Dashboard';
+import { Backdrop } from './components';
 
-const NoRoute = () => <div>404 - Oporra</div>;
+// layouts
+import AuthLayout from './layouts/AuthLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 
-const Routes = () => {
+const NoRoute = () => <div>404 - Not found.</div>;
+
+export default () => {
     const { loading, logged, refreshToken } = useContext(AuthContext);
 
     useEffect(() => {
         refreshToken();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return loading ? (
-        <div>Loading</div>
-    ) : !logged ? (
-        <Switch>
-            <Route exact path="/" component={Auth} />
-            <Route component={NoRoute} />
-        </Switch>
-    ) : (
-        <Switch>
-            <Route path="/" component={Dashboard} />
-        </Switch>
+    return (
+        <Router>
+            <Backdrop open={loading} />
+            {!loading &&
+                (!logged ? (
+                    <Switch>
+                        <Route exact path="/" component={AuthLayout} />
+                        <Route component={NoRoute} />
+                    </Switch>
+                ) : (
+                    <Switch>
+                        <Route path="/" component={DashboardLayout} />
+                    </Switch>
+                ))}
+        </Router>
     );
 };
-
-export default () => (
-    <Router>
-        <Switch>
-            <AuthProvider>
-                <Routes />
-            </AuthProvider>
-        </Switch>
-    </Router>
-);

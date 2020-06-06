@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,18 +10,18 @@ import { AuthForm, Logo, Backdrop } from '../components';
 
 import { AuthContext } from '../config/contexts/AuthContext';
 
-import './Auth.scss';
+import './AuthLayout.scss';
 
 export default () => {
     const [values, setValues] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { push } = useHistory();
 
     const { login, logout } = useContext(AuthContext);
 
     useEffect(() => {
         logout();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = ({ target: { name, value } }) =>
@@ -35,7 +33,7 @@ export default () => {
         setLoading(true);
 
         login(values)
-            .then(() => push('/dashboard'))
+            .then(() => window.location.reload())
             .catch((error) => {
                 setError(error);
                 setLoading(false);

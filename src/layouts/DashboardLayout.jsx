@@ -14,7 +14,7 @@ import Menu from '../components/layouts/Menu';
 import ChatView from '../views/ChatView';
 import FeedView from '../views/FeedView';
 
-import './Dashboard.scss';
+import './DashboardLayout.scss';
 
 export default () => {
     const ws = useWebSocket(

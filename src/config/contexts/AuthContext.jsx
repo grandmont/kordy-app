@@ -6,16 +6,13 @@ export const AuthContext = createContext();
 export default ({ children }) => {
     const [logged, setLogged] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [currentUser, setCurrentUser] = useState(
-        JSON.parse(localStorage.currentUser || null),
-    );
+    const [currentUser, setCurrentUser] = useState(null);
 
     const login = (values) =>
         new Promise((resolve, reject) => {
             api.post('/auth', { ...values })
                 .then(({ data: { token, user } }) => {
                     localStorage.token = token;
-                    localStorage.currentUser = JSON.stringify(user);
                     setLogged(true);
                     setCurrentUser(user);
                     return resolve(token);
@@ -28,10 +25,7 @@ export default ({ children }) => {
         new Promise((resolve, reject) => {
             api.get('/refreshToken')
                 .then(({ data: { token, user } }) => {
-                    console.log(token);
-                    console.log(user);
                     localStorage.token = token;
-                    localStorage.currentUser = JSON.stringify(user);
                     setLogged(true);
                     setCurrentUser(user);
                     return resolve(token);
