@@ -45,7 +45,7 @@ export default ({ messages, value, onChange, onSubmit }) => {
                     <Button
                         type="submit"
                         id="send"
-                        label={<Send color="#ffffff" />}
+                        label={<Send color="primary" />}
                     />
                 </form>
             </div>

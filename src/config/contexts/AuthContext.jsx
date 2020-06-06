@@ -10,17 +10,23 @@ export default ({ children }) => {
 
     const login = (values) => {
         setLoading(true);
-        return new Promise((resolve, reject) => {
-            api.post('/auth', { ...values })
-                .then(({ data: { token, user } }) => {
-                    localStorage.token = token;
-                    setLogged(true);
-                    setCurrentUser(user);
-                    return resolve(token);
-                })
-                .catch((error) => reject(error))
-                .finally(() => setLoading(false));
-        });
+        setTimeout(
+            () =>
+                new Promise((resolve, reject) => {
+                    api.post('/auth', { ...values })
+                        .then(({ data: { token, user } }) => {
+                            localStorage.token = token;
+                            setLogged(true);
+                            setCurrentUser(user);
+                            return resolve(token);
+                        })
+                        .catch((error) => reject(error))
+                        .finally(() =>
+                            setTimeout(() => setLoading(false), 500),
+                        );
+                }),
+            500,
+        );
     };
 
     const refreshToken = () =>

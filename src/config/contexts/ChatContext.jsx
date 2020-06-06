@@ -27,11 +27,13 @@ export default ({ children }) => {
                 action: 'left-chat',
                 data,
             }),
-        sendChatMessage: (data) =>
+        sendChatMessage: (data) => {
+            console.log(data);
             send({
                 action: 'chat-message',
                 data,
-            }),
+            });
+        },
         disconnect: (data) =>
             send({
                 action: 'disconnect',

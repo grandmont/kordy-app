@@ -28,6 +28,7 @@ export default () => {
     }, [chatId]);
 
     useEffect(() => {
+        console.log(data);
         if (data && data.action === 'chat-message') {
             const {
                 data: {
