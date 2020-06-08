@@ -5,6 +5,26 @@
 
     font-family: 'Circular';
 
-    color: white;
     background-color: #303030;
+    color: #ffffff;
+
+    transition: background-color 0.25s ease;
+
+    &.circular {
+        min-width: auto;
+        border-radius: 50%;
+    }
+
+    &.light {
+        background-color: #ffffff;
+        color: #303030;
+    }
+
+    &:hover {
+        background-color: #202020;
+
+        &.light {
+            background-color: #e8e8e8;
+        }
+    }
 }

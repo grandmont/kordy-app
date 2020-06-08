@@ -5,7 +5,6 @@ import Container from '@material-ui/core/Container';
 import useWebSocket from 'react-use-websocket';
 
 import WebSocketProvider from '../config/contexts/WebSocketContext';
-import ChatProvider from '../config/contexts/ChatContext';
 
 import { Header, Friends } from '../components';
 import Menu from '../components/layouts/Menu';
@@ -31,13 +30,7 @@ export default () => {
                         <Menu />
                         <Switch>
                             <Route exact path="/" component={FeedView} />
-                            <ChatProvider>
-                                <Route
-                                    exact
-                                    path="/chat/:chatId"
-                                    component={ChatView}
-                                />
-                            </ChatProvider>
+                            <Route exact path="/chat" component={ChatView} />
                         </Switch>
 
                         <Friends />

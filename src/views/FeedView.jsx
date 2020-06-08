@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import { Button } from '../components';
 
 import './FeedView.scss';
 
@@ -6,7 +9,9 @@ export default () => {
     return (
         <section className="view feed">
             <div className="feed-posts">
-                <h1>Feed</h1>
+                <Link to="/chat">
+                    <Button label="Start Chatting!" />
+                </Link>
             </div>
         </section>
     );

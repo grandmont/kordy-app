@@ -1,67 +1,115 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 
-import { ChatContext } from '../config/contexts/ChatContext';
+import { WebSocketContext } from '../config/contexts/WebSocketContext';
 import { AuthContext } from '../config/contexts/AuthContext';
 
 import Chat from '../components/layouts/Chat';
 
 import './ChatView.scss';
 
+// <ChatView> component
 export default () => {
-    const { chatId } = useParams();
-
+    const [loading, setLoading] = useState(true);
+    const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
 
-    const { joinChat, leftChat, sendChatMessage, data } = useContext(
-        ChatContext,
-    );
-
+    // Contexts
+    const { data, send } = useContext(WebSocketContext);
     const { currentUser } = useContext(AuthContext);
 
-    useEffect(() => {
-        joinChat({ chatId });
-
-        return () => leftChat({ chatId });
-    }, [chatId]);
+    const chatDataRef = useRef(chat);
 
     useEffect(() => {
-        if (data && data.action === 'chat-message') {
-            const {
-                data: {
-                    user: { id, kordy },
-                    content,
-                },
-            } = data;
+        chatDataRef.current = chat;
+    }, [chat]);
 
-            setMessages((messages) => [
-                ...messages,
-                {
-                    user: { kordy, isCurrentUser: id === currentUser.id },
-                    content,
-                },
-            ]);
+    useEffect(() => {
+        document.onkeydown = ({ keyCode }) => {
+            if (keyCode === 27) {
+                handleLeave();
+            }
+        };
+
+        send({
+            action: 'join-waiting-list',
+        });
+
+        return () => {
+            document.onkeydown = null;
+            // Leave the chat on unmount
+            send({
+                action: 'left-chat',
+                data: { room: chatDataRef.current.room },
+            });
+        };
+    }, [send]);
+
+    useEffect(() => {
+        if (data) {
+            const { action } = data;
+
+            if (action === 'chat-message') {
+                const {
+                    data: {
+                        user: { id, kordy },
+                        content,
+                    },
+                } = data;
+
+                setMessages((messages) => [
+                    ...messages,
+                    {
+                        user: {
+                            id,
+                            kordy,
+                            isCurrentUser: id === currentUser.id,
+                        },
+                        content,
+                    },
+                ]);
+            }
+
+            if (action === 'join-chat') {
+                setChat(data.data);
+                setLoading(false);
+            }
+
+            if (['left-chat', 'disconnect'].includes(action)) {
+                console.log(`${data.data.user.kordy} left the chat.`);
+            }
         }
-    }, [data]);
-
-    const handleChangeMessage = ({ target: { value } }) =>
-        value.length && setMessage(value);
+    }, [data, currentUser]);
 
     const handleSendMessage = (event) => {
         event.preventDefault();
-        sendChatMessage({ chatId, content: message });
+        message.length &&
+            send({
+                action: 'chat-message',
+                data: {
+                    room: chat.room,
+                    content: message,
+                },
+            });
+
         setMessage('');
+    };
+
+    // TODO: Show a confirmation when leaving
+    const handleLeave = () => {
+        console.log('Leaving...');
     };
 
     return (
         <div className="view chat">
             <Chat
+                data={chat}
                 messages={messages}
                 value={message}
-                onChange={handleChangeMessage}
+                onChange={({ target: { value } }) => setMessage(value)}
                 onSubmit={handleSendMessage}
+                onLeave={handleLeave}
+                loading={loading}
             />
         </div>
     );
