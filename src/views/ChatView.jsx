@@ -7,33 +7,45 @@ import Chat from '../components/layouts/Chat';
 
 import './ChatView.scss';
 
+// <ChatView> component
 export default () => {
     const [loading, setLoading] = useState(true);
     const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
 
+    // Contexts
     const { data, send } = useContext(WebSocketContext);
-
     const { currentUser } = useContext(AuthContext);
 
+    const chatDataRef = useRef(chat);
+
     useEffect(() => {
+        chatDataRef.current = chat;
+    }, [chat]);
+
+    useEffect(() => {
+        document.onkeydown = ({ keyCode }) => {
+            if (keyCode === 27) {
+                handleLeave();
+            }
+        };
+
         send({
             action: 'join-waiting-list',
         });
 
-        document.addEventListener('keydown', handleEscape);
-
         return () => {
-            document.removeEventListener('keydown', handleEscape);
-            chat && send({ action: 'left-chat', data: { room: chat.room } });
+            document.onkeydown = null;
+            // Leave the chat on unmount
+            send({
+                action: 'left-chat',
+                data: { room: chatDataRef.current.room },
+            });
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [send]);
 
     useEffect(() => {
-        console.log(data);
-
         if (data) {
             const { action } = data;
 
@@ -67,10 +79,7 @@ export default () => {
                 console.log(`${data.data.user.kordy} left the chat.`);
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
-    const handleChangeMessage = ({ target: { value } }) => setMessage(value);
+    }, [data, currentUser]);
 
     const handleSendMessage = (event) => {
         event.preventDefault();
@@ -86,12 +95,9 @@ export default () => {
         setMessage('');
     };
 
-    const handleEscape = (event) => {
-        event.keyCode === 27 && handleLeave();
-    };
-
+    // TODO: Show a confirmation when leaving
     const handleLeave = () => {
-        console.log('opa ta saindo eh?');
+        console.log('Leaving...');
     };
 
     return (
@@ -100,7 +106,7 @@ export default () => {
                 data={chat}
                 messages={messages}
                 value={message}
-                onChange={handleChangeMessage}
+                onChange={({ target: { value } }) => setMessage(value)}
                 onSubmit={handleSendMessage}
                 onLeave={handleLeave}
                 loading={loading}
