@@ -10,14 +10,23 @@ import { Send, AttachFile } from '@material-ui/icons';
 import './Chat.scss';
 
 export default forwardRef(
-    ({ data, messages, value, onChange, onSubmit, onLeave, loading }, ref) => (
-        <div
-            ref={ref}
-            className={`chat-wrapper elevation${loading ? ' loading' : ''}`}
-        >
+    (
+        {
+            data,
+            messages,
+            value,
+            onChange,
+            onSubmit,
+            onLeave,
+            onScroll,
+            loading,
+        },
+        ref,
+    ) => (
+        <div className={`chat-wrapper elevation${loading ? ' loading' : ''}`}>
             <div className="chat-header"></div>
 
-            <div className="chat-body">
+            <div className="chat-body" onScroll={onScroll} ref={ref}>
                 {loading ? (
                     <div className="searching-users">
                         <h1>Searching for random new friends!</h1>
@@ -46,6 +55,7 @@ export default forwardRef(
                                 );
                             },
                         )}
+                        <p id="dummy"></p>
                     </>
                 )}
             </div>

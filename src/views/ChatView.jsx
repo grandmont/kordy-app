@@ -19,6 +19,7 @@ export default () => {
     const { currentUser } = useContext(AuthContext);
 
     const chatDataRef = useRef(chat);
+    const chatRef = useRef(null);
 
     useEffect(() => {
         chatDataRef.current = chat;
@@ -68,6 +69,18 @@ export default () => {
                         content,
                     },
                 ]);
+
+                // const {
+                //     current: { scrollHeight, clientHeight },
+                // } = chatRef;
+
+                // chatRef.current.scrollTo({
+                //     top: scrollHeight + clientHeight,
+                //     left: 0,
+                //     behavior: 'smooth',
+                // });
+
+                chatRef.current.querySelector('#dummy').scrollIntoView();
             }
 
             if (action === 'join-chat') {
@@ -100,6 +113,8 @@ export default () => {
         console.log('Leaving...');
     };
 
+    const handleScroll = () => {};
+
     return (
         <div className="view chat">
             <Chat
@@ -109,7 +124,9 @@ export default () => {
                 onChange={({ target: { value } }) => setMessage(value)}
                 onSubmit={handleSendMessage}
                 onLeave={handleLeave}
+                onScroll={handleScroll}
                 loading={loading}
+                ref={chatRef}
             />
         </div>
     );
