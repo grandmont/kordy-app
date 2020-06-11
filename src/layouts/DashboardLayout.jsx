@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import useWebSocket from 'react-use-websocket';
 
 import WebSocketProvider from '../config/contexts/WebSocketContext';
+import ChatProvider from '../config/contexts/ChatContext';
 
 import { Header, Friends } from '../components';
 import Menu from '../components/layouts/Menu';
@@ -22,21 +23,27 @@ export default () => {
 
     return (
         <WebSocketProvider connection={ws}>
-            <div className="layout dashboard">
-                <Header />
+            <ChatProvider>
+                <div className="layout dashboard">
+                    <Header />
 
-                <div className="dashboard-wrapper">
-                    <Container className="dashboard-container">
-                        <Menu />
-                        <Switch>
-                            <Route exact path="/" component={FeedView} />
-                            <Route exact path="/chat" component={ChatView} />
-                        </Switch>
+                    <div className="dashboard-wrapper">
+                        <Container className="dashboard-container">
+                            <Menu />
+                            <Switch>
+                                <Route exact path="/" component={FeedView} />
+                                <Route
+                                    exact
+                                    path="/chat"
+                                    component={ChatView}
+                                />
+                            </Switch>
 
-                        <Friends />
-                    </Container>
+                            <Friends />
+                        </Container>
+                    </div>
                 </div>
-            </div>
+            </ChatProvider>
         </WebSocketProvider>
     );
 };

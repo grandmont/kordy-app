@@ -45,7 +45,6 @@ export default forwardRef(
                             </div>
                         ),
                     )}
-                    <span id="dummy" />
                 </>
             ),
             off: (
@@ -64,6 +63,7 @@ export default forwardRef(
                 <div className="chat-body">
                     <CustomScrollbar disableTrackYWidthCompensation noScrollX>
                         {statusComponent[status]}
+                        <span id="dummy" />
                     </CustomScrollbar>
                 </div>
 
