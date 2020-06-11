@@ -5,26 +5,62 @@ import { WebSocketContext } from './WebSocketContext';
 export const ChatContext = createContext();
 
 export default ({ children }) => {
-    const { send, data } = useContext(WebSocketContext);
+    const { send, data: wsData } = useContext(WebSocketContext);
 
-    const [chatData, setChatData] = useState({});
+    // Intermediate WebSocket data
+    const [data, setData] = useState(null);
+
+    const [chat, setChat] = useState({});
     const [status, setStatus] = useState('loading');
 
     useEffect(() => {
-        console.log('chatData:', chatData);
-    }, [chatData]);
-
-    useEffect(() => {
-        console.log('status:', status);
-    }, [status]);
+        setData(wsData);
+    }, [wsData]);
 
     const providerValue = {
-        chatData,
-        setChatData,
+        chat,
+        setChat,
         status,
         setStatus,
-        // create an abstraction over the WebSocketContext
-        send,
+        actions: {
+            joinWaitingList: () => {
+                console.log('opa');
+                send({ action: 'join-waiting-list' });
+            },
+
+            leaveChat: () => {
+                send({
+                    action: 'left-chat',
+                    data: {
+                        room: chat.room,
+                    },
+                });
+                setChat({});
+            },
+
+            joinChat: (room) =>
+                send({
+                    action: 'join-chat',
+                    data: {
+                        room,
+                    },
+                }),
+
+            sendMessage: (content) =>
+                send({
+                    action: 'chat-message',
+                    data: {
+                        room: chat.room,
+                        content,
+                    },
+                }),
+
+            reset: () => {
+                providerValue.actions.leaveChat();
+                setStatus('loading');
+                setData(null);
+            },
+        },
         data,
     };
 

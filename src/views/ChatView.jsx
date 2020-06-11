@@ -13,9 +13,12 @@ export default () => {
     const [messages, setMessages] = useState([]);
 
     // Contexts
-    const { chatData, setChatData, status, setStatus, send, data } = useContext(
+    const { chat, setChat, status, setStatus, actions, data } = useContext(
         ChatContext,
     );
+
+    const { joinWaitingList, leaveChat, sendMessage } = actions;
+
     const { currentUser } = useContext(AuthContext);
 
     // Refs
@@ -24,18 +27,15 @@ export default () => {
     useEffect(() => {
         document.addEventListener('keydown', handleEscape);
 
-        send({
-            action: 'join-waiting-list',
-        });
+        joinWaitingList();
 
         return () => {
             document.removeEventListener('keydown', handleEscape);
         };
-    }, [send]);
+    }, []);
 
     useEffect(() => {
         if (data) {
-            console.log(data);
             const { action } = data;
 
             if (action === 'chat-message') {
@@ -60,20 +60,18 @@ export default () => {
             }
 
             if (action === 'join-chat') {
-                setChatData(data.data);
+                setChat(data.data);
                 setStatus('on');
             }
 
             if (action === 'left-chat') {
-                send({
-                    action: 'left-chat',
-                    data: { room: chatData?.room },
-                });
+                leaveChat();
                 setStatus('off');
             }
 
             if (action === 'disconnect') {
-                setStatus('disconnected');
+                leaveChat();
+                setStatus('off');
             }
         }
     }, [data, currentUser]);
@@ -84,16 +82,6 @@ export default () => {
             chatRef.current.querySelector('#dummy').scrollIntoView();
     }, [messages]);
 
-    // Send a new message
-    const handleSendMessage = (content) =>
-        send({
-            action: 'chat-message',
-            data: {
-                room: chatData.room,
-                content,
-            },
-        });
-
     const handleEscape = ({ keyCode }) => {
         // console.log(keyCode);
     };
@@ -101,9 +89,9 @@ export default () => {
     return (
         <div className="view chat">
             <Chat
-                data={chatData}
+                data={chat}
                 messages={messages}
-                onSubmit={handleSendMessage}
+                onSubmit={(message) => sendMessage(message)}
                 // onLeave={handleLeave}
                 status={status}
                 ref={chatRef}

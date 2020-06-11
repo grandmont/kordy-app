@@ -8,25 +8,15 @@ import { Button } from '../components';
 import './FeedView.scss';
 
 export default () => {
-    const { chatData, setChatData, status, send } = useContext(ChatContext);
+    const {
+        actions: { reset },
+    } = useContext(ChatContext);
 
     useEffect(() => {
-        console.log(chatData);
-
-        // Leave any chat that may be open
+        // Reset the chat data
         // This is due to react-router state persistence
-        chatData &&
-            send({
-                action: 'left-chat',
-                data: { room: chatData.room },
-            });
-
-        setChatData({});
+        reset();
     }, []);
-
-    useEffect(() => {
-        console.log(status);
-    }, [status]);
 
     return (
         <section className="view feed">
