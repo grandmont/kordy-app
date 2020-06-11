@@ -18,6 +18,7 @@ export default ({ onChange, onSubmit, onFocus, onBlur }) => (
         >
             <Grid className="grid-item" item xs={12}>
                 <Input
+                    className="elevation"
                     onFocus={onFocus}
                     onBlur={onBlur}
                     type="email"
@@ -28,6 +29,7 @@ export default ({ onChange, onSubmit, onFocus, onBlur }) => (
             </Grid>
             <Grid className="grid-item" item xs={12}>
                 <Input
+                    className="elevation"
                     onFocus={onFocus}
                     onBlur={onBlur}
                     type="password"

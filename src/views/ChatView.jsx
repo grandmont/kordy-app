@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 
-import { WebSocketContext } from '../config/contexts/WebSocketContext';
+import { ChatContext } from '../config/contexts/ChatContext';
 import { AuthContext } from '../config/contexts/AuthContext';
 
 import Chat from '../components/layouts/Chat';
@@ -9,41 +9,30 @@ import './ChatView.scss';
 
 // <ChatView> component
 export default () => {
-    const [loading, setLoading] = useState(true);
-    const [chat, setChat] = useState(null);
+    // States
     const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState('');
 
     // Contexts
-    const { data, send } = useContext(WebSocketContext);
+    const { chat, setChat, status, setStatus, actions, data } = useContext(
+        ChatContext,
+    );
+
+    const { joinWaitingList, leaveChat, sendMessage } = actions;
+
     const { currentUser } = useContext(AuthContext);
 
-    const chatDataRef = useRef(chat);
+    // Refs
+    const chatRef = useRef(null);
 
     useEffect(() => {
-        chatDataRef.current = chat;
-    }, [chat]);
+        document.addEventListener('keydown', handleEscape);
 
-    useEffect(() => {
-        document.onkeydown = ({ keyCode }) => {
-            if (keyCode === 27) {
-                handleLeave();
-            }
-        };
-
-        send({
-            action: 'join-waiting-list',
-        });
+        joinWaitingList();
 
         return () => {
-            document.onkeydown = null;
-            // Leave the chat on unmount
-            send({
-                action: 'left-chat',
-                data: { room: chatDataRef.current.room },
-            });
+            document.removeEventListener('keydown', handleEscape);
         };
-    }, [send]);
+    }, []);
 
     useEffect(() => {
         if (data) {
@@ -72,32 +61,29 @@ export default () => {
 
             if (action === 'join-chat') {
                 setChat(data.data);
-                setLoading(false);
+                setStatus('on');
             }
 
-            if (['left-chat', 'disconnect'].includes(action)) {
-                console.log(`${data.data.user.kordy} left the chat.`);
+            if (action === 'left-chat') {
+                leaveChat();
+                setStatus('off');
+            }
+
+            if (action === 'disconnect') {
+                leaveChat();
+                setStatus('off');
             }
         }
     }, [data, currentUser]);
 
-    const handleSendMessage = (event) => {
-        event.preventDefault();
-        message.length &&
-            send({
-                action: 'chat-message',
-                data: {
-                    room: chat.room,
-                    content: message,
-                },
-            });
+    // Scroll to bottom when a new message is received
+    useEffect(() => {
+        messages.length &&
+            chatRef.current.querySelector('#dummy').scrollIntoView();
+    }, [messages]);
 
-        setMessage('');
-    };
-
-    // TODO: Show a confirmation when leaving
-    const handleLeave = () => {
-        console.log('Leaving...');
+    const handleEscape = ({ keyCode }) => {
+        // console.log(keyCode);
     };
 
     return (
@@ -105,11 +91,10 @@ export default () => {
             <Chat
                 data={chat}
                 messages={messages}
-                value={message}
-                onChange={({ target: { value } }) => setMessage(value)}
-                onSubmit={handleSendMessage}
-                onLeave={handleLeave}
-                loading={loading}
+                onSubmit={(message) => sendMessage(message)}
+                // onLeave={handleLeave}
+                status={status}
+                ref={chatRef}
             />
         </div>
     );
