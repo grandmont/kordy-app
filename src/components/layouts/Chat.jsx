@@ -1,4 +1,5 @@
-import React, { forwardRef } from 'react';
+import React, { useState, forwardRef } from 'react';
+import CustomScrollbar from 'react-scrollbars-custom';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -10,93 +11,99 @@ import { Send, AttachFile } from '@material-ui/icons';
 import './Chat.scss';
 
 export default forwardRef(
-    (
-        {
-            data,
-            messages,
-            value,
-            onChange,
-            onSubmit,
-            onLeave,
-            onScroll,
-            loading,
-        },
-        ref,
-    ) => (
-        <div className={`chat-wrapper elevation${loading ? ' loading' : ''}`}>
-            <div className="chat-header"></div>
+    ({ data, messages, onSubmit, onLeave, status }, ref) => {
+        const [message, setMessage] = useState('');
 
-            <div className="chat-body" onScroll={onScroll} ref={ref}>
-                {loading ? (
-                    <div className="searching-users">
-                        <h1>Searching for random new friends!</h1>
-                        <CircularProgress color="inherit" />
+        const statusComponent = {
+            loading: (
+                <div className="chat-off">
+                    <h1 className="title">Searching for random new friends!</h1>
+                    <CircularProgress
+                        className="circular-loader"
+                        color="inherit"
+                    />
+                </div>
+            ),
+            on: (
+                <>
+                    <div className="presentation">
+                        You are now talking with a stranger!
                     </div>
-                ) : (
-                    <>
-                        <div className="presentation">
-                            You are now talking with a stranger!
-                        </div>
-                        {messages.map(
-                            ({ content, user: { id, isCurrentUser } }, i) => {
-                                return (
-                                    <div
-                                        key={i}
-                                        className={`message ${
-                                            isCurrentUser ? ' is-user' : ''
-                                        }${
-                                            id !== messages[i - 1]?.user.id
-                                                ? ' first'
-                                                : ''
-                                        }`}
-                                    >
-                                        <div className="content">{content}</div>
-                                    </div>
-                                );
-                            },
-                        )}
-                        <p id="dummy"></p>
-                    </>
-                )}
-            </div>
+                    {messages.map(
+                        ({ content, user: { id, isCurrentUser } }, i) => (
+                            <div
+                                key={i}
+                                className={`message ${
+                                    isCurrentUser ? ' is-user' : ''
+                                }${
+                                    id !== messages[i - 1]?.user.id
+                                        ? ' first'
+                                        : ''
+                                }`}
+                            >
+                                <div className="content">{content}</div>
+                            </div>
+                        ),
+                    )}
+                    <span id="dummy" />
+                </>
+            ),
+            off: (
+                <div className="chat-off">
+                    <h1 className="title">The chat ended :(</h1>
+                    <p className="sub-title">But don't give up yet!</p>
+                    <Button label="Let's try again?" />
+                </div>
+            ),
+        };
 
-            <div className="chat-footer">
-                <form onChange={onChange} onSubmit={onSubmit}>
-                    <Button
+        return (
+            <div ref={ref} className={`chat-wrapper elevation ${status}`}>
+                <div className="chat-header"></div>
+
+                <div className="chat-body">
+                    <CustomScrollbar disableTrackYWidthCompensation noScrollX>
+                        {statusComponent[status]}
+                    </CustomScrollbar>
+                </div>
+
+                <div className="chat-footer">
+                    <form
                         className="elevation"
-                        id="exit"
-                        disabled={loading}
-                        onClick={onLeave}
-                        label="ESC"
-                    />
-
-                    <Input
-                        className="chat-input"
-                        type="text"
-                        value={value}
-                        spellCheck={false}
-                        placeholder="Type awesome things..."
-                        rightIcon={
-                            <Button
-                                className="light"
-                                id="attach"
-                                disabled={loading}
-                                elevation={false}
-                                circular
-                                label={<AttachFile />}
-                            />
-                        }
-                    />
-
-                    <Button
-                        className="elevation"
-                        type="submit"
-                        id="send"
-                        disabled={loading}
-                        label={<Send fill="#ffffff" />}
-                    />
-                </form>
+                        onChange={({ target: { value } }) => setMessage(value)}
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            // Clear the text input
+                            if (message.length) {
+                                onSubmit(message);
+                                setMessage('');
+                            }
+                        }}
+                    >
+                        <Input
+                            className="chat-input"
+                            type="text"
+                            value={message}
+                            spellCheck={false}
+                            placeholder="Type awesome things..."
+                            rightIcon={
+                                <Button
+                                    id="attach"
+                                    className="light"
+                                    elevation={false}
+                                    label={<AttachFile />}
+                                    circular
+                                />
+                            }
+                        />
+                        <Button
+                            id="send"
+                            type="submit"
+                            label={<Send fill="#ffffff" />}
+                        />
+                    </form>
+                </div>
             </div>
-        </div>
-    ),
+        );
+    },
 );

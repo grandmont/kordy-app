@@ -9,27 +9,25 @@ import './ChatView.scss';
 
 // <ChatView> component
 export default () => {
-    const [loading, setLoading] = useState(true);
+    // type === loading | on | off
+    const [status, setStatus] = useState('loading');
     const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState('');
 
     // Contexts
     const { data, send } = useContext(WebSocketContext);
     const { currentUser } = useContext(AuthContext);
 
-    const chatDataRef = useRef(chat);
+    const chatStateRef = useRef(chat);
     const chatRef = useRef(null);
 
     useEffect(() => {
-        chatDataRef.current = chat;
+        chatStateRef.current = chat;
     }, [chat]);
 
     useEffect(() => {
         document.onkeydown = ({ keyCode }) => {
-            if (keyCode === 27) {
-                handleLeave();
-            }
+            console.log(keyCode);
         };
 
         send({
@@ -38,10 +36,11 @@ export default () => {
 
         return () => {
             document.onkeydown = null;
+
             // Leave the chat on unmount
             send({
                 action: 'left-chat',
-                data: { room: chatDataRef.current.room },
+                data: { room: chatStateRef.current.room },
             });
         };
     }, [send]);
@@ -69,63 +68,48 @@ export default () => {
                         content,
                     },
                 ]);
-
-                // const {
-                //     current: { scrollHeight, clientHeight },
-                // } = chatRef;
-
-                // chatRef.current.scrollTo({
-                //     top: scrollHeight + clientHeight,
-                //     left: 0,
-                //     behavior: 'smooth',
-                // });
-
-                chatRef.current.querySelector('#dummy').scrollIntoView();
             }
 
             if (action === 'join-chat') {
                 setChat(data.data);
-                setLoading(false);
+                setStatus('on');
             }
 
             if (['left-chat', 'disconnect'].includes(action)) {
                 console.log(`${data.data.user.kordy} left the chat.`);
+                setStatus('off');
+                send({
+                    action: 'left-chat',
+                    data: { room: chatStateRef.current.room },
+                });
             }
         }
     }, [data, currentUser]);
 
-    const handleSendMessage = (event) => {
-        event.preventDefault();
-        message.length &&
-            send({
-                action: 'chat-message',
-                data: {
-                    room: chat.room,
-                    content: message,
-                },
-            });
+    // Scroll to bottom when a new message is received
+    useEffect(() => {
+        messages.length &&
+            chatRef.current.querySelector('#dummy').scrollIntoView();
+    }, [messages]);
 
-        setMessage('');
-    };
-
-    // TODO: Show a confirmation when leaving
-    const handleLeave = () => {
-        console.log('Leaving...');
-    };
-
-    const handleScroll = () => {};
+    // Send a new message
+    const handleSendMessage = (content) =>
+        send({
+            action: 'chat-message',
+            data: {
+                room: chat.room,
+                content,
+            },
+        });
 
     return (
         <div className="view chat">
             <Chat
                 data={chat}
                 messages={messages}
-                value={message}
-                onChange={({ target: { value } }) => setMessage(value)}
                 onSubmit={handleSendMessage}
-                onLeave={handleLeave}
-                onScroll={handleScroll}
-                loading={loading}
+                // onLeave={handleLeave}
+                status={status}
                 ref={chatRef}
             />
         </div>
