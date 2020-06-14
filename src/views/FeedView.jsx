@@ -1,9 +1,10 @@
 import React, { useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { ChatContext } from '../config/contexts/ChatContext';
+import { Post } from '../components';
 
-import { Button } from '../components';
+import { fakePosts } from '../utils/data';
 
 import './FeedView.scss';
 
@@ -18,12 +19,14 @@ export default () => {
         reset();
     }, []);
 
+    console.log(fakePosts);
+
     return (
         <section className="view feed">
             <div className="feed-posts">
-                <Link to="/chat">
-                    <Button label="Start Chatting!" />
-                </Link>
+                {fakePosts.map((data, i) => (
+                    <Post key={i} />
+                ))}
             </div>
         </section>
     );

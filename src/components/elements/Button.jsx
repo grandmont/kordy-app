@@ -14,7 +14,6 @@ export default ({
 }) => (
     <ButtonBase
         {...props}
-        type="submit"
         className={`button ${elevation ? 'elevation' : ''} ${className} ${
             circular ? 'circular' : 'default'
         }`}

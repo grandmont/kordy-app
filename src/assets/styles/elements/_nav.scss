@@ -1,0 +1,27 @@
+.side-nav,
+.friends-nav {
+    background-color: #505050;
+    min-width: 240px;
+    max-width: 280px;
+    width: 100%;
+    padding: 24px;
+}
+
+.side-nav {
+    .user-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .profile-image {
+            width: 48px;
+            height: 48px;
+            background-color: #ffffff;
+            border-radius: 50%;
+        }
+    }
+
+    .button {
+        width: 100%;
+    }
+}

@@ -1,4 +1,6 @@
 .dashboard {
+    @import '../assets/styles/elements/nav';
+
     flex-direction: column;
 
     .dashboard-container,
@@ -11,12 +13,5 @@
     .dashboard-wrapper {
         position: absolute;
         padding-top: 48px;
-    }
-
-    .menu,
-    .friends-nav {
-        background-color: #505050;
-        width: 40%;
-        height: 100%;
     }
 }

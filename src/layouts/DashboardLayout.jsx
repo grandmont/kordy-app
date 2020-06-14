@@ -8,7 +8,7 @@ import WebSocketProvider from '../config/contexts/WebSocketContext';
 import ChatProvider from '../config/contexts/ChatContext';
 
 import { Header, Friends } from '../components';
-import Menu from '../components/layouts/Menu';
+import Sidenav from '../components/layouts/Sidenav';
 
 // Views
 import ChatView from '../views/ChatView';
@@ -29,7 +29,7 @@ export default () => {
 
                     <div className="dashboard-wrapper">
                         <Container className="dashboard-container">
-                            <Menu />
+                            <Sidenav />
                             <Switch>
                                 <Route exact path="/" component={FeedView} />
                                 <Route
