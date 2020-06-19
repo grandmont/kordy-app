@@ -28,8 +28,14 @@ export default () => {
                     <Header />
 
                     <div className="dashboard-wrapper">
-                        <Container className="dashboard-container">
+                        <Container className="nav-container">
                             <Sidenav />
+                            <div className="view" />
+                            <Friends />
+                        </Container>
+
+                        <Container className="dashboard-container">
+                            <div className="nav" />
                             <Switch>
                                 <Route exact path="/" component={FeedView} />
                                 <Route
@@ -38,8 +44,7 @@ export default () => {
                                     component={ChatView}
                                 />
                             </Switch>
-
-                            <Friends />
+                            <div className="nav" />
                         </Container>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ export default () => {
     // }, [currentUser]);
 
     return (
-        <div className="side-nav">
+        <div className="side-nav nav">
             <div className="user-section">
                 <div className="profile-image elevation"></div>
                 <h1 className="sub-title">{currentUser?.kordy}</h1>

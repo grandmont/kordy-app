@@ -1,13 +1,36 @@
 .post-wrapper {
     display: flex;
     flex-direction: column;
+    margin-bottom: 24px;
+    border-radius: 5px;
 
     .post-header {
+        border-radius: 5px 5px 0 0;
     }
 
     .post-body {
+        justify-content: flex-start;
+        background-color: #fafafa;
+        padding: 24px;
     }
 
     .post-footer {
+        border-radius: 0 0 5px 5px;
+        padding: 0 12px 12px;
+    }
+
+    .post-header,
+    .post-footer {
+        height: 48px;
+        justify-content: space-between;
+        background-color: #303030;
+        padding: 0 12px 0;
+    }
+
+    .post-header,
+    .post-body,
+    .post-footer {
+        display: flex;
+        align-items: center;
     }
 }

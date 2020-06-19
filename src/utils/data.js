@@ -1,6 +1,9 @@
 import faker from 'faker';
 
-export const fakePosts = [1, 2, 3].map((i) => ({
+export const fakePosts = [...Array(5).keys()].map((i) => ({
     id: i,
-    name: faker.internet.userName(),
+    user: {
+        kordy: faker.internet.userName(),
+    },
+    content: faker.random.words(),
 }));

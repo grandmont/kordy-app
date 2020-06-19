@@ -39,7 +39,7 @@ export default ({ onChange, onSubmit, onFocus, onBlur }) => (
                 />
             </Grid>
             <Grid className="grid-item" item xs={12}>
-                <Button label="Sign In" />
+                <Button type="submit" label="Sign In" />
             </Grid>
         </form>
     </Grid>

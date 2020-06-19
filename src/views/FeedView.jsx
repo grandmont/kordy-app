@@ -25,7 +25,7 @@ export default () => {
         <section className="view feed">
             <div className="feed-posts">
                 {fakePosts.map((data, i) => (
-                    <Post key={i} />
+                    <Post key={i} data={data} />
                 ))}
             </div>
         </section>
