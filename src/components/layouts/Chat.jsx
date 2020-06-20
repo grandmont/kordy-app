@@ -6,7 +6,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button } from '../';
 import Input from '../forms/Input';
 
-import { Send, AttachFile } from '@material-ui/icons';
+import Icon from '@mdi/react';
+import { mdiSend, mdiPaperclip } from '@mdi/js';
 
 import './Chat.scss';
 
@@ -111,7 +112,13 @@ export default forwardRef(
                                     className="light"
                                     elevation={false}
                                     onClick={() => fileInputRef.current.click()}
-                                    label={<AttachFile />}
+                                    label={
+                                        <Icon
+                                            path={mdiPaperclip}
+                                            size={1}
+                                            color="#303030"
+                                        />
+                                    }
                                     circular
                                 />
                             }
@@ -119,7 +126,9 @@ export default forwardRef(
                         <Button
                             id="send"
                             type="submit"
-                            label={<Send fill="#ffffff" />}
+                            label={
+                                <Icon path={mdiSend} size={1} color="#ffffff" />
+                            }
                         />
                     </form>
                 </div>

@@ -30,12 +30,12 @@ export default () => {
                     <div className="dashboard-wrapper">
                         <Container className="nav-container">
                             <Sidenav />
-                            <div className="view" />
+                            <div className="view nonexistent" />
                             <Friends />
                         </Container>
 
                         <Container className="dashboard-container">
-                            <div className="nav" />
+                            <div className="nav nonexistent" />
                             <Switch>
                                 <Route exact path="/" component={FeedView} />
                                 <Route
@@ -44,7 +44,7 @@ export default () => {
                                     component={ChatView}
                                 />
                             </Switch>
-                            <div className="nav" />
+                            <div className="nav nonexistent" />
                         </Container>
                     </div>
                 </div>

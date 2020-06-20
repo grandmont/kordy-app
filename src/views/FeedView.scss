@@ -1,8 +1,14 @@
 .feed {
-    // background-color: #505050;
-    background-color: #707070;
+    z-index: 1;
+    background-color: #505050;
     padding: 24px;
     min-width: 280px;
+    flex-direction: column;
+
+    .feed-header {
+        width: 100%;
+        margin-bottom: 24px;
+    }
 
     .feed-posts {
         width: 100%;

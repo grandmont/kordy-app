@@ -36,10 +36,11 @@
     height: 48px;
     position: fixed;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 
     &,
     .header-container {
+        padding: 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -49,9 +50,7 @@
         display: flex;
 
         .option {
-            width: 0;
-            height: 0;
-            padding: 16px;
+            padding: 6px;
             margin: auto 0;
         }
 
@@ -66,4 +65,13 @@
     .logo {
         font-size: 20px;
     }
+}
+
+.nonexistent {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.tooltip {
+    font-family: 'Circular';
 }
