@@ -4,10 +4,10 @@
     margin-bottom: 24px;
     border-radius: 5px;
     background-color: #fafafa;
-    padding: 12px;
 
     .post-header,
     .post-footer {
+        padding: 12px;
         align-items: center;
     }
 
@@ -31,8 +31,44 @@
 
     .post-body {
         justify-content: flex-start;
-        padding: 24px 0;
+        padding: 0 12px;
         flex-direction: column;
+
+        &.has-images {
+            padding: 0;
+        }
+
+        .post-images-wrapper {
+            display: flex;
+            background-color: #000000;
+            min-height: 360px;
+
+            div {
+                width: 100%;
+                display: flex;
+            }
+
+            .post-image {
+                max-height: 480px;
+                height: 100%;
+
+                img {
+                    object-fit: contain;
+                    max-height: 360px;
+                }
+            }
+        }
+
+        .carousel {
+            .carousel-status {
+                font-family: 'Circular';
+                padding: 12px;
+            }
+
+            .control-dots {
+                padding: 0;
+            }
+        }
     }
 
     .post-footer {

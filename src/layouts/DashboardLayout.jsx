@@ -14,6 +14,7 @@ import Sidenav from '../components/layouts/Sidenav';
 import ChatView from '../views/ChatView';
 import FeedView from '../views/FeedView';
 
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './DashboardLayout.scss';
 
 export default () => {
