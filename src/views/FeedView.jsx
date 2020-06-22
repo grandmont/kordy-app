@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from '../services/api';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import { Button, Post } from '../components';
 import './FeedView.scss';
 
 export default () => {
+    const [loading, setLoading] = useState(true);
     const [offset, setOffset] = useState(0);
     const [posts, setPosts] = useState([]);
 
@@ -15,10 +16,18 @@ export default () => {
         actions: { reset },
     } = useContext(ChatContext);
 
-    const getPosts = async () => {
-        const { data } = await api.get('/getPosts', { headers: { offset } });
-        setPosts((prevPosts) => [...prevPosts, ...data]);
-        setOffset(offset + 10);
+    const getPosts = () => {
+        api.get('/getPosts', { headers: { offset } })
+            .then(({ data }) => {
+                setPosts((prevPosts) => [...prevPosts, ...data]);
+                setOffset(offset + 10);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     useEffect(() => {
@@ -37,9 +46,12 @@ export default () => {
                 </Link>
             </div>
             <div className="feed-posts">
-                {posts.map((data, i) => (
-                    <Post key={i} data={data} />
-                ))}
+                {!loading
+                    ? posts.map((data, i) => <Post key={i} data={data} />)
+                    : [...Array(3).keys()].map((i) => (
+                          <Post key={i} skeleton />
+                      ))}
+                <Post skeleton />
             </div>
         </section>
     );

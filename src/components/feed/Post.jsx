@@ -1,21 +1,14 @@
 import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@mdi/react';
-import {
-    mdiHeart,
-    mdiHeartOutline,
-    mdiCommentOutline,
-    mdiImageBrokenVariant,
-} from '@mdi/js';
+import { mdiHeart, mdiHeartOutline, mdiCommentOutline } from '@mdi/js';
 
+import Carousel from '../elements/Carousel';
 import ProfileToolTip from '../elements/ProfileTooltip';
 
 import './Post.scss';
 
-const { REACT_APP_AWS_S3_ENDPOINT, REACT_APP_AWS_BUCKET_NAME } = process.env;
-
-export default ({ data }) => {
+const Post = ({ data }) => {
     const {
         user: { kordy, profile },
         content,
@@ -38,26 +31,7 @@ export default ({ data }) => {
 
                 {hasImages && (
                     <div className="post-images-wrapper">
-                        <Carousel
-                            showIndicators={images.length > 1}
-                            showStatus={images.length > 1}
-                            showThumbs={false}
-                            showArrows={false}
-                            emulateTouch
-                            swipeScrollTolerance={10}
-                            statusFormatter={(current, total) =>
-                                `${current} / ${total}`
-                            }
-                        >
-                            {images.map(({ key }) => (
-                                <div className="post-image">
-                                    <img
-                                        src={`${REACT_APP_AWS_S3_ENDPOINT}${REACT_APP_AWS_BUCKET_NAME}/${key}`}
-                                        alt={kordy}
-                                    />
-                                </div>
-                            ))}
-                        </Carousel>
+                        <Carousel images={images} imageClassName="post-image" />
                     </div>
                 )}
             </div>
@@ -85,4 +59,19 @@ export default ({ data }) => {
             </div>
         </div>
     );
+};
+
+const PostSkeleton = () => (
+    <div className="post-wrapper elevation skeleton">
+        <div className="post-header">
+            <Avatar className="shine" />
+            <div className="kordy shine" />
+        </div>
+        <div className="post-body shine" />
+        <div className="post-footer shine" />
+    </div>
+);
+
+export default ({ data, skeleton }) => {
+    return !skeleton ? <Post data={data} /> : <PostSkeleton />;
 };

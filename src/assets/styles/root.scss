@@ -32,12 +32,17 @@ code {
 }
 
 #root {
+    @import './elements/image';
     @import './elements/buttons';
     @import './elements/form';
     @import './core/colors';
     @import './core/layout';
     @import './core/typography';
     @import './effects/effects';
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     width: 100%;
     height: auto;
