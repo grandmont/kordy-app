@@ -5,8 +5,6 @@ export default ({
     label,
     onClick,
     style,
-    color,
-    textColor,
     className,
     elevation,
     circular = false,

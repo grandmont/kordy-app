@@ -11,6 +11,7 @@ export default ({ images, imageClassName }) => {
             showIndicators={images.length > 1}
             showStatus={false}
             showThumbs={false}
+            swipeable={false}
             statusFormatter={(current, total) => `${current} / ${total}`}
         >
             {images.map(({ key }) => (

@@ -26,8 +26,8 @@ const Post = ({ data }) => {
                     <p className="kordy">{kordy}</p>
                 </ProfileToolTip>
             </div>
-            <div className={`post-body ${hasImages && 'has-images'}`}>
-                {content && <p>{content}</p>}
+            <div className="post-body">
+                {content && <p className="content">{content}</p>}
 
                 {hasImages && (
                     <div className="post-images-wrapper">
@@ -62,10 +62,13 @@ const Post = ({ data }) => {
 };
 
 const PostSkeleton = () => (
-    <div className="post-wrapper elevation skeleton">
+    <div className="post-wrapper skeleton">
         <div className="post-header">
             <Avatar className="shine" />
-            <div className="kordy shine" />
+            <div className="kordy">
+                <div className="line p shine" />
+                <div className="line p shine" />
+            </div>
         </div>
         <div className="post-body shine" />
         <div className="post-footer shine" />

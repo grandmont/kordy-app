@@ -31,11 +31,10 @@
 
     .post-body {
         justify-content: flex-start;
-        padding: 0 12px;
         flex-direction: column;
 
-        &.has-images {
-            padding: 0;
+        .content {
+            margin: 12px;
         }
 
         .post-images-wrapper {
@@ -54,35 +53,6 @@
                 img {
                     object-fit: contain;
                     max-height: 480px;
-                }
-            }
-        }
-
-        .carousel {
-            .carousel-status {
-                font-family: 'Circular';
-                font-size: 12px;
-                margin: 12px;
-                padding: 6px;
-            }
-
-            .control-dots {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                .dot {
-                    width: 7px;
-                    height: 7px;
-                    background-color: #303030;
-                    box-shadow: none;
-                    margin: 0 6px;
-                    transition: width 0.25s, height 0.25s;
-
-                    &.selected {
-                        width: 8.5px;
-                        height: 8.5px;
-                    }
                 }
             }
         }
@@ -120,13 +90,18 @@
     }
 
     &.skeleton {
-        .kordy {
+        background-color: transparent;
+
+        .line {
             width: 120px;
-            height: 16px;
-            border-radius: 5px;
+
+            &:nth-child(1) {
+                width: 150px;
+            }
         }
 
         .post-body {
+            border-radius: 5px 5px 0 0;
             height: 120px;
         }
     }

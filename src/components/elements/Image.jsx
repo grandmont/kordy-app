@@ -10,10 +10,10 @@ export default ({ url }) => {
                 src={url}
                 fallback={<div className="image-wrapper shine" />}
                 errorFallback={() => (
-                    <div className="image-wrapper">
+                    <div className="image-wrapper error">
                         <Icon
                             path={mdiImageBrokenVariant}
-                            size={1}
+                            size={2}
                             color="#ffffff"
                         />
                     </div>
