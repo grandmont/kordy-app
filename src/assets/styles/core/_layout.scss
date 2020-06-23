@@ -7,6 +7,10 @@
     height: 100%;
 }
 
+.view {
+    min-width: 280px;
+}
+
 .backdrop {
     display: flex;
     justify-content: center;
@@ -27,16 +31,47 @@
 }
 
 .header {
-    display: flex;
     background-color: #303030;
     width: 100%;
     height: 48px;
-    align-items: center;
     position: fixed;
     top: 0;
-    z-index: 1;
+    z-index: 2;
+
+    &,
+    .header-container {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header-menu {
+        display: flex;
+
+        .option {
+            padding: 6px;
+            margin: auto 0;
+        }
+
+        .divider {
+            width: 1px;
+            height: 32px;
+            margin: auto 12px;
+            background-color: #e8e8e8;
+        }
+    }
 
     .logo {
         font-size: 20px;
     }
+}
+
+.nonexistent {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.tooltip {
+    font-family: 'Circular';
 }

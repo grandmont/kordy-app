@@ -22,6 +22,8 @@ body {
         'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 code {
@@ -30,14 +32,21 @@ code {
 }
 
 #root {
-    @import './elements/buttons';
-    @import './elements/form';
     @import './core/colors';
     @import './core/layout';
     @import './core/typography';
+    @import './elements/display';
+    @import './elements/buttons';
+    @import './elements/form';
     @import './effects/effects';
+    @import './effects/skeleton';
 
-    width: 100vw;
-    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
     background-color: $primary;
 }

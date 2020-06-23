@@ -1,8 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import Email from '@material-ui/icons/Email';
-import Lock from '@material-ui/icons/Lock';
+import Icon from '@mdi/react';
+import { mdiAccount, mdiLock } from '@mdi/js';
 
 import { Button } from '../';
 import Input from './Input';
@@ -24,7 +24,7 @@ export default ({ onChange, onSubmit, onFocus, onBlur }) => (
                     type="email"
                     name="email"
                     placeholder="E-mail"
-                    leftIcon={<Email />}
+                    leftIcon={<Icon path={mdiAccount} color="#ffffff" />}
                 />
             </Grid>
             <Grid className="grid-item" item xs={12}>
@@ -35,11 +35,11 @@ export default ({ onChange, onSubmit, onFocus, onBlur }) => (
                     type="password"
                     name="password"
                     placeholder="Password"
-                    leftIcon={<Lock />}
+                    leftIcon={<Icon path={mdiLock} color="#ffffff" />}
                 />
             </Grid>
             <Grid className="grid-item" item xs={12}>
-                <Button label="Sign In" />
+                <Button type="submit" label="Sign In" />
             </Grid>
         </form>
     </Grid>

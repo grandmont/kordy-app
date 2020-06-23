@@ -24,7 +24,6 @@ export default ({ children }) => {
         setStatus,
         actions: {
             joinWaitingList: () => {
-                console.log('opa');
                 send({ action: 'join-waiting-list' });
             },
 

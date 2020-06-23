@@ -1,0 +1,14 @@
+.skeleton {
+    .line {
+        border-radius: 5px;
+        margin: 6px 0;
+
+        &.h1 {
+            height: 16px;
+        }
+
+        &.p {
+            height: 12px;
+        }
+    }
+}

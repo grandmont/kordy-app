@@ -5,8 +5,6 @@ export default ({
     label,
     onClick,
     style,
-    color,
-    textColor,
     className,
     elevation,
     circular = false,
@@ -14,7 +12,6 @@ export default ({
 }) => (
     <ButtonBase
         {...props}
-        type="submit"
         className={`button ${elevation ? 'elevation' : ''} ${className} ${
             circular ? 'circular' : 'default'
         }`}

@@ -1,18 +1,38 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, useRef } from 'react';
+import api from '../../services/api';
 import CustomScrollbar from 'react-scrollbars-custom';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Button } from '../';
 import Input from '../forms/Input';
 
-import { Send, AttachFile } from '@material-ui/icons';
+import Icon from '@mdi/react';
+import { mdiSend, mdiPaperclip } from '@mdi/js';
 
 import './Chat.scss';
 
 export default forwardRef(
     ({ data, messages, onSubmit, onLeave, status }, ref) => {
         const [message, setMessage] = useState('');
+
+        const fileInputRef = useRef(null);
+
+        const handleFileInput = ({ target: { files } }) => {
+            console.log(files);
+            const form = new FormData();
+
+            [...files].forEach((file) => form.append('files', file));
+
+            api.post('/createPost', form, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => console.error(error));
+        };
 
         const statusComponent = {
             loading: (
@@ -91,7 +111,14 @@ export default forwardRef(
                                     id="attach"
                                     className="light"
                                     elevation={false}
-                                    label={<AttachFile />}
+                                    onClick={() => fileInputRef.current.click()}
+                                    label={
+                                        <Icon
+                                            path={mdiPaperclip}
+                                            size={1}
+                                            color="#303030"
+                                        />
+                                    }
                                     circular
                                 />
                             }
@@ -99,10 +126,19 @@ export default forwardRef(
                         <Button
                             id="send"
                             type="submit"
-                            label={<Send fill="#ffffff" />}
+                            label={
+                                <Icon path={mdiSend} size={1} color="#ffffff" />
+                            }
                         />
                     </form>
                 </div>
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    onChange={handleFileInput}
+                    multiple
+                    hidden
+                />
             </div>
         );
     },
