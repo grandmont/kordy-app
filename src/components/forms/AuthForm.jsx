@@ -24,7 +24,10 @@ export default ({ onChange, onSubmit, onFocus, onBlur }) => (
                     type="email"
                     name="email"
                     placeholder="E-mail"
-                    leftIcon={<Icon path={mdiAccount} color="#ffffff" />}
+                    autoComplete="email"
+                    leftIcon={
+                        <Icon path={mdiAccount} size={1} color="#303030" />
+                    }
                 />
             </Grid>
             <Grid className="grid-item" item xs={12}>
@@ -35,7 +38,8 @@ export default ({ onChange, onSubmit, onFocus, onBlur }) => (
                     type="password"
                     name="password"
                     placeholder="Password"
-                    leftIcon={<Icon path={mdiLock} color="#ffffff" />}
+                    autoComplete="current-password"
+                    leftIcon={<Icon path={mdiLock} size={1} color="#303030" />}
                 />
             </Grid>
             <Grid className="grid-item" item xs={12}>

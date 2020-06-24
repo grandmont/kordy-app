@@ -32,10 +32,8 @@ export default () => {
     };
 
     useEffect(() => {
-        getPosts();
-        // Reset the chat data
-        // This is due to react-router state persistence
         reset();
+        getPosts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

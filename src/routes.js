@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { AuthContext } from './config/contexts/AuthContext';
@@ -13,17 +13,12 @@ import DashboardLayout from './layouts/DashboardLayout';
 const NoRouteComponent = () => <div>404 - Not found.</div>;
 
 export default () => {
-    const { logged, refreshToken } = useContext(AuthContext);
-    const { backdrop } = useContext(StatusContext);
-
-    useEffect(() => {
-        refreshToken();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const { logged } = useContext(AuthContext);
+    const { loading } = useContext(StatusContext);
 
     return (
         <Router>
-            <Backdrop open={backdrop} />
+            <Backdrop open={loading} />
             {!logged ? (
                 <Switch>
                     <Route exact path="/" component={AuthLayout} />
