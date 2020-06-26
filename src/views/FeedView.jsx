@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ChatContext } from '../config/contexts/ChatContext';
 import { Button } from '../components';
 import { CreatePost, Post } from '../components/feed';
+import { Modal } from '../components/layouts';
 
 import './FeedView.scss';
 
@@ -12,6 +13,7 @@ export default () => {
     const [loading, setLoading] = useState(true);
     const [offset, setOffset] = useState(0);
     const [posts, setPosts] = useState([]);
+    const [showCreatePost, setShowCreatePost] = useState(false);
 
     const {
         actions: { reset },
@@ -38,21 +40,34 @@ export default () => {
     }, []);
 
     return (
-        <section className="view feed">
-            <div className="feed-header">
-                <Link to="/chat">
-                    <Button label="Start Chatting!" />
-                </Link>
-            </div>
-            <div className="feed-posts">
+        <>
+            <section className="view feed">
+                <div className="feed-header">
+                    <Link to="/chat">
+                        <Button label="Start Chatting!" />
+                    </Link>
+
+                    <Button
+                        label="Create a new post"
+                        onClick={() => setShowCreatePost(true)}
+                    />
+                </div>
+                <div className="feed-posts">
+                    {!loading
+                        ? posts.map((data, i) => <Post key={i} data={data} />)
+                        : [...Array(3).keys()].map((i) => (
+                              <Post key={i} skeleton />
+                          ))}
+                    <Post skeleton />
+                </div>
+            </section>
+
+            <Modal
+                show={showCreatePost}
+                onClose={() => setShowCreatePost(false)}
+            >
                 <CreatePost />
-                {!loading
-                    ? posts.map((data, i) => <Post key={i} data={data} />)
-                    : [...Array(3).keys()].map((i) => (
-                          <Post key={i} skeleton />
-                      ))}
-                <Post skeleton />
-            </div>
-        </section>
+            </Modal>
+        </>
     );
 };

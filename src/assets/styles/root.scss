@@ -17,6 +17,15 @@ body {
 }
 
 body {
+    @import './core/colors';
+    @import './core/layout';
+    @import './core/typography';
+    @import './elements/display';
+    @import './elements/buttons';
+    @import './elements/form';
+    @import './effects/effects';
+    @import './effects/skeleton';
+
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
         'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
         'Helvetica Neue', sans-serif;
@@ -27,29 +36,46 @@ body {
     &.overflow {
         overflow-y: scroll;
     }
+
+    #root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        background-color: $primary;
+    }
+
+    .modal-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: #30303030;
+        top: 0;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+
+        &.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            min-width: 320px;
+            max-width: 640px;
+            min-height: 320px;
+        }
+    }
 }
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
-}
-
-#root {
-    @import './core/colors';
-    @import './core/layout';
-    @import './core/typography';
-    @import './elements/display';
-    @import './elements/buttons';
-    @import './elements/form';
-    @import './effects/effects';
-    @import './effects/skeleton';
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-    height: auto;
-    min-height: 100vh;
-    background-color: $primary;
 }
