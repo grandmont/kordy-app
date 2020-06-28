@@ -15,6 +15,8 @@ const Post = ({ data }) => {
         images,
     } = data;
 
+    console.log(data);
+
     const hasImages = !!images.length;
 
     return (

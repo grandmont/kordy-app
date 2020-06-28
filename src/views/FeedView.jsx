@@ -39,6 +39,16 @@ export default () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleCreatePost = async (postId) => {
+        if (!postId) return;
+
+        const { data } = await api.get(`/getPostById/${postId}`);
+
+        setPosts((prevPosts) => [data, ...prevPosts]);
+
+        setShowCreatePost(false);
+    };
+
     return (
         <>
             <section className="view feed">
@@ -63,10 +73,14 @@ export default () => {
             </section>
 
             <Modal
+                className="create-post-modal"
                 show={showCreatePost}
                 onClose={() => setShowCreatePost(false)}
             >
-                <CreatePost />
+                <CreatePost
+                    onSuccess={handleCreatePost}
+                    onClose={() => setShowCreatePost(false)}
+                />
             </Modal>
         </>
     );

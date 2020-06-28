@@ -109,7 +109,7 @@ export default forwardRef(
                             rightIcon={
                                 <Button
                                     id="attach"
-                                    className="light"
+                                    light
                                     elevation={false}
                                     onClick={() => fileInputRef.current.click()}
                                     label={

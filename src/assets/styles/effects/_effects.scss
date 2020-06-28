@@ -8,13 +8,13 @@
 }
 
 .shine {
-    background: #e8e8e8;
+    background: #e8e8e830;
     background-image: linear-gradient(
         to right,
-        #e8e8e8 0%,
-        #edeef1 20%,
-        #f6f7f8 40%,
-        #e8e8e8 100%
+        #00000000 0%,
+        #edeef150 30%,
+        #f6f7f850 40%,
+        #00000000 100%
     );
     background-size: 500px;
     background-repeat: no-repeat;
@@ -43,6 +43,6 @@
     }
 
     100% {
-        background-position-x: 500px;
+        background-position-x: 700px;
     }
 }

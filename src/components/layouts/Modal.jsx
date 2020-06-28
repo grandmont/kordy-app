@@ -1,7 +1,7 @@
 import React from 'react';
 import Portal from '@material-ui/core/Portal';
 
-export default ({ show, onClose, children }) => {
+export default ({ show, onClose, className, children }) => {
     const container = document.querySelector('#modal');
 
     const handleOutterClick = () => {
@@ -18,7 +18,12 @@ export default ({ show, onClose, children }) => {
                 onClick={handleOutterClick}
                 className={`modal-container ${show ? 'open' : ''}`}
             >
-                <div onClick={handleInnerClick} className="modal">
+                <div
+                    onClick={handleInnerClick}
+                    className={`modal animate-bottom${
+                        className ? ` ${className}` : ''
+                    }`}
+                >
                     {children}
                 </div>
             </div>

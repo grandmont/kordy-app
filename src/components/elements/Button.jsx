@@ -8,13 +8,14 @@ export default ({
     className,
     elevation,
     circular = false,
+    light = false,
     ...props
 }) => (
     <ButtonBase
         {...props}
         className={`button ${elevation ? 'elevation' : ''} ${className} ${
-            circular ? 'circular' : 'default'
-        }`}
+            circular ? 'circular' : ''
+        } ${light ? ' light' : ''}`}
         onClick={onClick}
         focusRipple
     >

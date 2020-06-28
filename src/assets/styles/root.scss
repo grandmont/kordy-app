@@ -55,22 +55,30 @@ body {
         position: fixed;
         width: 100%;
         height: 100%;
-        background: #30303030;
+        background: #30303090;
         top: 0;
         z-index: 10;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.25s ease;
 
+        .modal {
+            min-width: 320px;
+            width: auto;
+
+            &.animate-bottom {
+                margin-bottom: -50px;
+                transition: margin 0.25s ease;
+            }
+        }
+
         &.open {
             opacity: 1;
             pointer-events: all;
-        }
 
-        .modal {
-            min-width: 320px;
-            max-width: 640px;
-            min-height: 320px;
+            .modal.animate-bottom {
+                margin-bottom: 0;
+            }
         }
     }
 }
