@@ -16,7 +16,7 @@ export default ({ show, onClose, className, children }) => {
         <Portal container={container}>
             <div
                 onClick={handleOutterClick}
-                className={`modal-container ${show ? 'open' : ''}`}
+                className={`backdrop-container ${show ? 'open' : ''}`}
             >
                 <div
                     onClick={handleInnerClick}

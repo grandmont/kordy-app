@@ -34,11 +34,26 @@
         border-radius: 5px 5px 0 0;
         justify-content: flex-start;
 
+        .post-info {
+            display: flex;
+            flex-direction: column;
+            margin: 0 12px;
+        }
+
+        p {
+            font-size: 14px;
+            margin: 0;
+        }
+
         .kordy {
             cursor: pointer;
-            margin-left: 12px;
-            font-size: 14px;
             font-family: 'Circular';
+        }
+
+        .option {
+            padding: 3px;
+            background-color: transparent;
+            margin: 0 -3px auto auto;
         }
     }
 
@@ -48,10 +63,12 @@
 
         .content {
             margin: 12px;
+            white-space: pre-line;
         }
 
         .post-images-wrapper {
             display: flex;
+            cursor: pointer;
 
             div {
                 width: 100%;

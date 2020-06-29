@@ -1,21 +1,36 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@mdi/react';
-import { mdiHeart, mdiHeartOutline, mdiCommentOutline } from '@mdi/js';
+import {
+    mdiHeart,
+    mdiHeartOutline,
+    mdiCommentOutline,
+    mdiDotsVertical,
+    // mdiPencil,
+} from '@mdi/js';
 
+import { formatDate } from '../../utils/formatters';
 import Carousel from '../elements/Carousel';
-import ProfileToolTip from '../elements/ProfileTooltip';
+
+import { Button, Dropdown } from '../elements';
 
 import './Post.scss';
+
+// const postOptions = [
+//     {
+//         title: 'Edit',
+//         description: 'Edit the post content.',
+//         leftIcon: <Icon path={mdiPencil} size={1} color="#303030" />,
+//     },
+// ];
 
 const Post = ({ data }) => {
     const {
         user: { kordy, profile },
         content,
         images,
+        createdAt,
     } = data;
-
-    console.log(data);
 
     const hasImages = !!images.length;
 
@@ -24,9 +39,28 @@ const Post = ({ data }) => {
             <div className="post-header">
                 <Avatar src={profile} />
 
-                <ProfileToolTip data={{ kordy }}>
+                <div className="post-info">
                     <p className="kordy">{kordy}</p>
-                </ProfileToolTip>
+                    <p className="post-time">{formatDate(createdAt)}</p>
+                </div>
+
+                <Dropdown
+                    items={[]}
+                    anchor={
+                        <Button
+                            className="option 2"
+                            circular
+                            light
+                            label={
+                                <Icon
+                                    path={mdiDotsVertical}
+                                    size={1}
+                                    color="#303030"
+                                />
+                            }
+                        />
+                    }
+                />
             </div>
             <div className="post-body">
                 {content && <p className="content">{content}</p>}
@@ -67,7 +101,7 @@ const PostSkeleton = () => (
     <div className="post-wrapper skeleton">
         <div className="post-header">
             <Avatar className="shine" />
-            <div className="kordy">
+            <div className="post-info">
                 <div className="line p shine" />
                 <div className="line p shine" />
             </div>

@@ -4,7 +4,7 @@ import api from '../../services/api';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Icon from '@mdi/react';
-import { mdiClose, mdiEmoticonCoolOutline, mdiPaperclip } from '@mdi/js';
+import { mdiClose, mdiEmoticonCoolOutline, mdiImageMultiple } from '@mdi/js';
 
 import { Button } from '../';
 import { Input } from '../forms';
@@ -105,7 +105,9 @@ export default ({ onClose, onSuccess }) => {
             <div className="post-header">
                 <Avatar src={currentUser?.profile} />
 
-                <p className="kordy">{currentUser?.kordy}</p>
+                <div className="post-info">
+                    <p className="kordy">{currentUser?.kordy}</p>
+                </div>
             </div>
 
             <div className="post-body">
@@ -120,7 +122,7 @@ export default ({ onClose, onSuccess }) => {
                     multiline
                 />
             </div>
-            <div className="thumbnails">
+            <div className={`thumbnails${thumbnails.length ? ' open' : ''}`}>
                 {thumbnails.map(({ url, id }) => (
                     <div key={id} className="thumbnail elevation">
                         <img src={url} alt={`thumbnail-${id}`} />
@@ -148,7 +150,7 @@ export default ({ onClose, onSuccess }) => {
                         label={
                             <Icon
                                 path={mdiEmoticonCoolOutline}
-                                size={1}
+                                size={1.1}
                                 color="#303030"
                             />
                         }
@@ -160,7 +162,7 @@ export default ({ onClose, onSuccess }) => {
                         onClick={() => fileInputRef.current.click()}
                         label={
                             <Icon
-                                path={mdiPaperclip}
+                                path={mdiImageMultiple}
                                 size={1}
                                 color="#303030"
                             />

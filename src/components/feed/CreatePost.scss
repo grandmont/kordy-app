@@ -4,6 +4,7 @@
     margin-bottom: 0;
 
     .title {
+        font-size: 14px;
         margin: 0;
     }
 
@@ -18,7 +19,7 @@
         align-items: center;
 
         .close-post {
-            padding: 8px;
+            padding: 3px;
         }
     }
 
@@ -32,6 +33,10 @@
         .create-post-textarea {
             padding: 0;
             background-color: transparent;
+
+            .input-base {
+                padding-bottom: 0;
+            }
         }
     }
 
@@ -63,11 +68,15 @@
                 object-fit: cover;
             }
         }
+
+        &.open {
+            padding: 6px;
+        }
     }
 
     .post-footer {
         justify-content: space-between;
-        padding-left: 6px;
+        padding-left: 3px;
 
         .post-actions {
             border-radius: 5px;
