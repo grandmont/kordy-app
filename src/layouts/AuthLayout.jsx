@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -11,12 +11,7 @@ import './AuthLayout.scss';
 
 export default () => {
     const [values, setValues] = useState({});
-    const { login, logout } = useContext(AuthContext);
-
-    useEffect(() => {
-        logout();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const { login } = useContext(AuthContext);
 
     const handleChange = ({ target: { name, value } }) =>
         setValues((values) => ({ ...values, [name]: value }));

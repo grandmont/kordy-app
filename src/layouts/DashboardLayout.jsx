@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 
@@ -21,6 +21,14 @@ export default () => {
     const ws = useWebSocket(
         `${process.env.REACT_APP_WSS}?token=${localStorage.token}`,
     );
+
+    useEffect(() => {
+        document.body.classList.add('overflow');
+
+        return () => {
+            document.body.classList.remove('overflow');
+        };
+    }, []);
 
     return (
         <WebSocketProvider connection={ws}>

@@ -32,6 +32,7 @@ export default () => {
         return () => {
             document.removeEventListener('keydown', handleEscape);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -74,6 +75,7 @@ export default () => {
                 setStatus('off');
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, currentUser]);
 
     // Scroll to bottom when a new message is received

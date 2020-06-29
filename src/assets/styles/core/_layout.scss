@@ -36,7 +36,7 @@
     height: 48px;
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 12;
 
     &,
     .header-container {
@@ -74,4 +74,16 @@
 
 .tooltip {
     font-family: 'Circular';
+}
+
+.divider {
+    &.horizontal {
+        width: 100%;
+        height: 1px;
+    }
+
+    &.vertical {
+        width: 1px;
+        height: 100%;
+    }
 }

@@ -17,36 +17,74 @@ body {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-        'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow: hidden;
-    overflow-y: scroll;
-}
-
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-        monospace;
-}
-
-#root {
     @import './core/colors';
     @import './core/layout';
     @import './core/typography';
     @import './elements/display';
     @import './elements/buttons';
     @import './elements/form';
+    @import './elements/navigation';
     @import './effects/effects';
     @import './effects/skeleton';
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
 
-    width: 100%;
-    height: auto;
-    min-height: 100vh;
-    background-color: $primary;
+    &.overflow {
+        overflow-y: scroll;
+    }
+
+    #root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        background-color: $primary;
+    }
+
+    .backdrop-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: #30303090;
+        top: 0;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+
+        .modal {
+            min-width: 320px;
+            width: auto;
+
+            &.animate-bottom {
+                margin-bottom: -50px;
+                transition: margin 0.25s ease;
+            }
+        }
+
+        &.open {
+            opacity: 1;
+            pointer-events: all;
+
+            .modal.animate-bottom {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
 }
