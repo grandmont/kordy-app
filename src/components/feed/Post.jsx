@@ -97,20 +97,21 @@ const Post = ({ data }) => {
     );
 };
 
-const PostSkeleton = () => (
-    <div className="post-wrapper skeleton">
-        <div className="post-header">
-            <Avatar className="shine" />
-            <div className="post-info">
-                <div className="line p shine" />
-                <div className="line p shine" />
+const PostSkeleton = ({ times }) =>
+    [...Array(times).keys()].map((i) => (
+        <div key={i} className="post-wrapper skeleton">
+            <div className="post-header">
+                <Avatar className="shine" />
+                <div className="post-info">
+                    <div className="line p shine" />
+                    <div className="line p shine" />
+                </div>
             </div>
+            <div className="post-body shine" />
+            <div className="post-footer shine" />
         </div>
-        <div className="post-body shine" />
-        <div className="post-footer shine" />
-    </div>
-);
+    ));
 
-export default ({ data, skeleton }) => {
-    return !skeleton ? <Post data={data} /> : <PostSkeleton />;
+export default ({ data, skeleton, times = 1 }) => {
+    return !skeleton ? <Post data={data} /> : <PostSkeleton times={times} />;
 };

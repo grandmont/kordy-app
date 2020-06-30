@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+    useState,
+    useEffect,
+    useCallback,
+    useContext,
+    useRef,
+} from 'react';
 import api from '../services/api';
 import { Link } from 'react-router-dom';
 
@@ -9,49 +15,78 @@ import { Modal } from '../components/layouts';
 
 import './FeedView.scss';
 
+const FETCH_LIMIT = 10;
+const BOTTOM_PADDING = 50;
+
 export default () => {
-    const [loading, setLoading] = useState(true);
-    const [offset, setOffset] = useState(0);
     const [posts, setPosts] = useState([]);
+    const [offset, setOffset] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [overload, setOverload] = useState(false);
     const [showCreatePost, setShowCreatePost] = useState(false);
+
+    const feedRef = useRef(null);
 
     const {
         actions: { reset },
     } = useContext(ChatContext);
 
-    const getPosts = () => {
+    const fetchPosts = () => {
+        setLoading(true);
         api.get('/getPosts', { headers: { offset } })
             .then(({ data }) => {
+                setOverload(data.length < FETCH_LIMIT || data.length === 0);
                 setPosts((prevPosts) => [...prevPosts, ...data]);
-                setOffset(offset + 10);
+                setOffset(offset + FETCH_LIMIT);
             })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
     };
+
+    const handleScroll = useCallback(() => {
+        if (overload || loading) {
+            window.onscroll = null;
+            return;
+        }
+
+        const { scrollY, innerHeight } = window;
+        const {
+            current: { scrollHeight },
+        } = feedRef;
+
+        scrollY + innerHeight + BOTTOM_PADDING > scrollHeight && fetchPosts();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [overload, loading]);
+
+    useEffect(() => {
+        window.onscroll = handleScroll;
+
+        return () => {
+            window.onscroll = null;
+        };
+    }, [handleScroll]);
 
     useEffect(() => {
         reset();
-        getPosts();
+        fetchPosts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleCreatePost = async (postId) => {
-        if (!postId) return;
+        try {
+            const { data } = await api.get(`/getPostById/${postId}`);
 
-        const { data } = await api.get(`/getPostById/${postId}`);
-
-        setPosts((prevPosts) => [data, ...prevPosts]);
-
-        setShowCreatePost(false);
+            setPosts((prevPosts) => [data, ...prevPosts]);
+            setShowCreatePost(false);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
         <>
-            <section className="view feed">
+            <section ref={feedRef} className="view feed">
                 <div className="feed-header">
                     <Link to="/chat">
                         <Button label="Start Chatting!" />
@@ -63,12 +98,11 @@ export default () => {
                     />
                 </div>
                 <div className="feed-posts">
-                    {!loading
-                        ? posts.map((data, i) => <Post key={i} data={data} />)
-                        : [...Array(3).keys()].map((i) => (
-                              <Post key={i} skeleton />
-                          ))}
-                    <Post skeleton />
+                    {!posts.length && <Post skeleton times={3} />}
+                    {posts.map((data, i) => (
+                        <Post key={i} data={data} />
+                    ))}
+                    {!overload ? <Post skeleton /> : <div></div>}
                 </div>
             </section>
 
