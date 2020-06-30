@@ -30,6 +30,10 @@
         display: flex;
     }
 
+    .post-body {
+        cursor: pointer;
+    }
+
     .post-header {
         border-radius: 5px 5px 0 0;
         justify-content: flex-start;
@@ -45,8 +49,12 @@
             margin: 0;
         }
 
-        .kordy {
+        .kordy,
+        .profile {
             cursor: pointer;
+        }
+
+        .kordy {
             font-family: 'Circular';
         }
 

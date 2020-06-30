@@ -73,15 +73,13 @@ export default () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleCreatePost = async (postId) => {
-        try {
-            const { data } = await api.get(`/getPostById/${postId}`);
-
-            setPosts((prevPosts) => [data, ...prevPosts]);
-            setShowCreatePost(false);
-        } catch (error) {
-            console.error(error);
-        }
+    const handleCreatePost = (postId) => {
+        api.get(`/getPostById/${postId}`)
+            .then(({ data }) => {
+                setPosts((prevPosts) => [data, ...prevPosts]);
+                setShowCreatePost(false);
+            })
+            .catch((error) => console.error(error));
     };
 
     return (

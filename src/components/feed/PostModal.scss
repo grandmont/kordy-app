@@ -1,0 +1,31 @@
+.post-modal-wrapper {
+    min-width: 572px;
+    max-width: 620px;
+    min-height: 480px;
+    margin-bottom: 0;
+    flex-direction: row;
+
+    .post-modal-images {
+        width: 520px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .post-modal-info {
+        width: 320px;
+
+        .post-content {
+            padding: 12px;
+
+            p {
+                margin: 0;
+                white-space: pre-line;
+            }
+        }
+
+        .info-comments {
+            padding: 12px;
+        }
+    }
+}
